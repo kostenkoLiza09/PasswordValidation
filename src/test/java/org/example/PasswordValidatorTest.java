@@ -10,20 +10,24 @@ class PasswordValidatorTest {
     void isLengthValid() {
         PasswordValidator passwordValidator = new PasswordValidator();
         assertTrue(passwordValidator.isLengthValid("12345678"));
-        assertFalse(passwordValidator.isLengthValid("123"));
+        assertFalse(passwordValidator.isLengthValid("12"));
+        assertFalse(passwordValidator.isLengthValid("1234567890123444455111111111"));
     }
 
     @Test
     void checkNumber() {
         PasswordValidator passwordValidator = new PasswordValidator();
         assertTrue(passwordValidator.hasDigit("Pass1"));
-        assertTrue(passwordValidator.hasDigit("Pass"));
+        assertFalse(passwordValidator.hasDigit("Pass"));
     }
 
     @Test
     void hasUpperLower() {
         PasswordValidator passwordValidator = new PasswordValidator();
         assertTrue(passwordValidator.checkUpperLower("PPPPPaaaaa"));
+        assertTrue(passwordValidator.checkUpperLower("aA"));
+        assertFalse(passwordValidator.checkUpperLower("12345"));
+        assertFalse(passwordValidator.checkUpperLower("PPPPP"));
     }
 
     @Test
@@ -33,8 +37,11 @@ class PasswordValidatorTest {
         PasswordValidator passwordValidator = new PasswordValidator();
 
         String isUsed = "Password";
-        String isNotUsed = "NewPassword";
+        String weakPassword = "Password1";
+        String strongPassword = "NewPassword1!";
+
         assertTrue(passwordValidator.usedPassword(isUsed, passwords));
-        assertFalse(passwordValidator.usedPassword(isNotUsed, passwords));
+        assertTrue(passwordValidator.usedPassword(weakPassword, passwords));
+        assertFalse(passwordValidator.usedPassword(strongPassword, passwords));
     }
 }
